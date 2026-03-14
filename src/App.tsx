@@ -1,11 +1,11 @@
-import { UserViewProvider } from './contexts/UserViewContext';
-import { UserView } from './views/user-view/UserView'
+import { TaskViewProvider } from './contexts/TaskViewContext';
+import { TaskView } from './views/task-view/TaskView';
 
 function App() {
   return (
-    <UserViewProvider>
-      <UserView />
-    </UserViewProvider>
+    <TaskViewProvider>
+      <TaskView />
+    </TaskViewProvider>
   );
 }
 

@@ -3,7 +3,8 @@ import type { CSSProperties, ReactElement, ReactNode } from "react";
 interface RowProps {
   children: ReactNode;
   flexGrow?: boolean;
-  alignItems?: CSSProperties['alignItems']
+  alignItems?: CSSProperties['alignItems'];
+  justifyContent?: CSSProperties['justifyContent'];
   gap?: CSSProperties['gap'];
 }
 
@@ -15,15 +16,14 @@ export function Row({
   return (
     <div
       style={{
-        width: '100%',
         display: 'flex',
         flexDirection: 'row',
         flexGrow: flexGrow ? 1 : 0,
-        justifyContent: 'space-between',
+        justifyContent: cssProps.justifyContent ?? 'space-between',
         ...cssProps,
       }}
     >
-      { children}
+      {children}
     </div>
-  )
+  );
 }

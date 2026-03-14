@@ -3,8 +3,9 @@ import type { CSSProperties, ReactElement, ReactNode } from "react";
 interface StackProps {
   children: ReactNode;
   flexGrow?: boolean;
-  alignItems?: CSSProperties['alignItems']
-  gap?: CSSProperties['gap']
+  alignItems?: CSSProperties['alignItems'];
+  height?: CSSProperties['height']
+  gap?: CSSProperties['gap'];
 }
 
 export function Stack({
