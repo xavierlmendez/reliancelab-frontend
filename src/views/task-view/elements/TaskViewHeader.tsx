@@ -1,11 +1,12 @@
 import type { ReactElement } from "react";
-import { XIcon, CheckIcon } from "@phosphor-icons/react";
+import { ThumbsDownIcon, ThumbsUpIcon } from "@phosphor-icons/react";
 import { Row } from "../../../components/Row";
 import { useTaskViewContext } from "../../../contexts/TaskViewContext";
 
 export function TaskViewHeader(): ReactElement {
   const {
     userScore,
+    showConfirmation,
     setUserScore,
   } = useTaskViewContext();
 
@@ -20,17 +21,19 @@ export function TaskViewHeader(): ReactElement {
           <button
             className={`button-error${userScore === 'reject' ? ' button-error-filled' : ''}`}
             onClick={() => setUserScore('reject')}
+            disabled={showConfirmation}
           >
             <Row gap={4} alignItems="center" justifyContent="center">
-              <XIcon />Reject
+              <ThumbsDownIcon />Reject
             </Row>
           </button>
           <button
             className={`button-success${userScore === 'approve' ? ' button-success-filled' : ''}`}
             onClick={() => setUserScore('approve')}
+            disabled={showConfirmation}
           >
             <Row gap={4} alignItems="center" justifyContent="center">
-              <CheckIcon />Approve
+              <ThumbsUpIcon />Approve
             </Row>
           </button>
         </Row>

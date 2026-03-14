@@ -1,7 +1,7 @@
 :root {
   /* color palette */
   --input-background-color: #111111;
-  --input-border-color: #333333;
+  --input-border-color: #aaaaaa;
 
   --background-dark-color: #1a1a1a;
   --background-medium-color: #222222;
@@ -11,11 +11,11 @@
   --complete-color: #646cff;
   --incomplete-color: #AAAAAA;
   --success-color: #63ffa9;
-  --success-dark-color: #43a870;
+  --success-dark-color: #119b4f;
   --information-color: #63b6ff;
   --warning-color: #ffe763;
   --error-color: #ff6363;
-  --error-dark-color: #a84343;
+  --error-dark-color: #9b1111;
 
   /* font face */
   font-family: system-ui, Helvetica, Arial, sans-serif;
@@ -112,5 +112,13 @@ button:focus, button:focus-visible {
 }
 
 button:disabled {
+  cursor: not-allowed;
+}
+
+button:disabled, .button-success:disabled, .button-error:disabled {
   border-color: var(--input-border-color);
+}
+
+.button-success-filled:disabled, .button-error-filled:disabled {
+  color: var(--incomplete-color);
 }
