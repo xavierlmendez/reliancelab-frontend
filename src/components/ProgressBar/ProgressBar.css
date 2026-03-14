@@ -1,0 +1,12 @@
+.progress-bar-segment {
+  height: 4px;
+  width: 100%;
+}
+
+.segment-complete {
+  background-color: var(--complete-color);
+}
+
+.segment-incomplete {
+  background-color: var(--incomplete-color)
+}
