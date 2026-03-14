@@ -11,7 +11,7 @@ export function CompleteView(): ReactElement {
         </h1>
         <CheersIcon size={64} />
         <div>
-          Your answers have been recorded,
+          Your answers have been recorded.
         </div>
         <div>
           You may now close this tab.
