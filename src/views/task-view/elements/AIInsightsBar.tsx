@@ -1,29 +1,23 @@
 import type { ReactElement } from "react";
+import { EmptyIcon } from "@phosphor-icons/react";
 import { Stack } from "../../../components/Stack";
-import { CactusIcon } from "@phosphor-icons/react";
 
 export function AIInsightsBar(): ReactElement {
   return (
     <Stack>
-      <div className="section-title-wrapper section-border no-right-margin">
+      <div className="section-title section-border no-right-margin">
         AI Insights
       </div>
-      <div className="section-side-content-wrapper section-border no-right-margin">
-        <div className="insight-actions-wrapper">
-          <button>Find issues</button>
-          <button>Do a code review</button>
-          <button>Explain the code</button>
-        </div>
+      <div className="section-side-content section-border no-right-margin">
+        <button>Find issues</button>
+        <button>Do a code review</button>
+        <button>Explain the code</button>
       </div>
-      <div className="section-side-content-wrapper section-border no-right-margin">
-        <div className="no-insights-wrapper">
-          <Stack alignItems="center">
-            <CactusIcon size={32} />
-            <div className="sub-text">
-              No code insights yet...
-            </div>
-          </Stack>
-        </div>
+      <div className="section-side-content section-border no-right-margin">
+        <Stack gap={8} height="100%" alignItems="center" justifyContent="center">
+          <EmptyIcon size={32} />
+          <div>No code insights yet...</div>
+        </Stack>
       </div>
     </Stack>
   );

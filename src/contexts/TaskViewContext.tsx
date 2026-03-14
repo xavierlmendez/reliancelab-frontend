@@ -1,5 +1,8 @@
-import { createContext, useContext, useEffect, useState, type ReactElement, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type Dispatch, type ReactElement, type ReactNode, type SetStateAction } from "react";
 import { getMockTaskData } from "../constants/MockTaskData";
+import { useToastContext } from "./ToastContext";
+import type { UserScore } from "../types/UserScore";
+import { useRoutingContext } from "./RoutingContext";
 
 interface TaskData {
   totalTasks: number;
@@ -10,30 +13,66 @@ interface TaskData {
 }
 
 interface TaskViewContextValue extends TaskData {
+  loading: boolean;
+  isFirstTask: boolean;
+  isLastTask: boolean;
+  userScore: UserScore | null;
+  setUserScore: Dispatch<SetStateAction<UserScore | null>>;
   navigateNextTask: () => void;
-  navigatePriorTask: () => void;
+  navigatePreviousTask: () => void;
 }
 
-export const TaskViewContext = createContext<TaskViewContextValue>(
+const TaskViewContext = createContext<TaskViewContextValue>(
   {} as TaskViewContextValue
 );
 
 export function TaskViewProvider({ children }: { children: ReactNode }): ReactElement | null {
+  const { pushToast } = useToastContext();
+  const { navigateToNextRoute } = useRoutingContext();
+
+  const [loading, setLoading] = useState<boolean>(false);
   const [taskData, setTaskData] = useState<TaskData>();
+  const [userScore, setUserScore] = useState<UserScore | null>(null);
+
+  const isFirstTask = taskData!! && (taskData.taskIndex === 0);
+  const isLastTask = taskData!! && (taskData.taskIndex === (taskData.totalTasks - 1));
 
   useEffect(() => {
-    // @TODO implement backend retrieval logic here when ready
+    /** @TODO implement backend retrieval logic here */
     setTaskData(getMockTaskData());
   }, []);
 
   function navigateNextTask(): void {
-    // @TODO implement backend logic for retrieving next task
-    console.log('navigating to next task');
+    if (loading) return;
+
+    if (!userScore) {
+      pushToast({ type: 'error', message: 'You must score the solution before proceeding.', timeToLive: 3000 });
+    } else {
+      setLoading(true);
+      pushToast({ type: 'information', message: 'Saving Score...', timeToLive: 1500 });
+
+      /** @TODO implement backend saving and retrieval logic here */
+      setTimeout(() => {
+        setLoading(false);
+        setUserScore(null);
+        pushToast({ type: 'success', message: 'Score saved.', timeToLive: 1500 });
+        if (isLastTask) navigateToNextRoute();
+      }, 250);
+    }
   }
 
-  function navigatePriorTask(): void {
-    // @TODO implement backend logic for retrieving previous task
-    console.log('navigating to prior task');
+  function navigatePreviousTask(): void {
+    if (loading) return;
+
+    if (!isFirstTask) {
+      setLoading(true);
+      pushToast({ type: 'information',  message: 'Proceeding to previous task...' });
+
+      /** @TODO implement backend retrieval logic here */
+      setTimeout(() => {
+        setLoading(false);
+      }, 250);
+    }
   }
 
   if (!taskData) {
@@ -42,8 +81,13 @@ export function TaskViewProvider({ children }: { children: ReactNode }): ReactEl
 
   const contextValue = {
     ...taskData,
+    loading,
+    isFirstTask,
+    isLastTask,
+    userScore,
+    setUserScore,
     navigateNextTask,
-    navigatePriorTask,
+    navigatePreviousTask,
   };
 
   return (

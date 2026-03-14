@@ -11,10 +11,10 @@ export function CodeDisplayArea(): ReactElement {
 
   return (
     <Stack flexGrow>
-      <div className="section-title-wrapper section-border">
+      <div className="section-title section-border">
         Code
       </div>
-      <div className="section-main-content-wrapper section-border">
+      <div className="section-main-content section-border">
         <CodeMirror
           style={{ height: "100%" }}
           extensions={extensions}

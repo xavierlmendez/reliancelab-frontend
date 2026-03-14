@@ -4,7 +4,8 @@ interface StackProps {
   children: ReactNode;
   flexGrow?: boolean;
   alignItems?: CSSProperties['alignItems'];
-  height?: CSSProperties['height']
+  justifyContent?: CSSProperties['justifyContent'];
+  height?: CSSProperties['height'];
   gap?: CSSProperties['gap'];
 }
 

@@ -1,5 +1,5 @@
 const MOCK_PROBLEM_STATEMENT_HTML = (
-`<h2>🧮 Problem: Sum of Even Numbers</h2>
+`<h2>Sum of Even Numbers</h2>
 
 <p>
   Given a list of integers, write a function <strong>sum_even(numbers)</strong>

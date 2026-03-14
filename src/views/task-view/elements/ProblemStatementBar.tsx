@@ -8,10 +8,10 @@ export function ProblemStatementBar(): ReactElement {
 
   return (
     <Stack>
-      <div className="section-title-wrapper section-border no-left-margin">
+      <div className="section-title section-border no-left-margin">
         Problem Statement
       </div>
-      <div className="section-side-content-wrapper section-border no-left-margin">
+      <div className="section-side-content section-border no-left-margin">
         <Html html={problemStatementHTML} />
       </div>
     </Stack>
