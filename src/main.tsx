@@ -4,13 +4,16 @@ import App from './App.tsx'
 import './index.css'
 import { RoutingProvider } from './contexts/RoutingContext.tsx'
 import { ToastProvider } from './contexts/ToastContext.tsx'
+import { FetchProvider } from './contexts/FetchContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ToastProvider>
-      <RoutingProvider>
-        <App />
-      </RoutingProvider>
-    </ToastProvider>
+    <FetchProvider endpoint="http://api.reliance-hci.com">
+      <ToastProvider>
+        <RoutingProvider>
+          <App />
+        </RoutingProvider>
+      </ToastProvider>
+    </FetchProvider>
   </StrictMode>,
 )
