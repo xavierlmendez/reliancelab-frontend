@@ -7,7 +7,7 @@ server {
     location = /api/chat {
         proxy_pass ${BACKEND_URL}/chat;
         proxy_ssl_server_name on;
-        proxy_set_header Content-Type "application/json";
+        proxy_set_header Host $proxy_host;
         proxy_set_header X-Frontend-Secret "${FRONTEND_SECRET}";
     }
 

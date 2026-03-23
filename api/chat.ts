@@ -8,11 +8,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const backendUrl = process.env.BACKEND_URL;
   const frontendSecret = process.env.FRONTEND_SECRET;
 
+  if (!backendUrl || !frontendSecret) {
+    console.error('Missing env vars:', { backendUrl: !!backendUrl, frontendSecret: !!frontendSecret });
+    return res.status(500).json({ error: 'Server misconfiguration' });
+  }
+
   const response = await fetch(`${backendUrl}/chat`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'X-Frontend-Secret': frontendSecret!,
+      'X-Frontend-Secret': frontendSecret,
     },
     body: JSON.stringify(req.body),
   });
