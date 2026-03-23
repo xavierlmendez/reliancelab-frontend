@@ -8,6 +8,7 @@ interface TaskData {
   totalTasks: number;
   taskIndex: number;
   taskID: string;
+  sessionID: string;
   problemStatementHTML: string;
   codeSnippet: string;
 }

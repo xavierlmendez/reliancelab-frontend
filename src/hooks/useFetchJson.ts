@@ -5,10 +5,11 @@ import { useFetchContext } from "../contexts/FetchContext";
 interface useFetchJsonProps {
   method: FetchJsonProps<any>['method'],
   route: string;
-  lazy?: boolean
+  lazy?: boolean;
+  url?: string;
 }
 
-export function useFetchJson<TBody, TJson>({ route, method, lazy = false }: useFetchJsonProps) {
+export function useFetchJson<TBody, TJson>({ route, method, lazy = false, url }: useFetchJsonProps) {
   const { endpoint } = useFetchContext();
 
   const [data, setData] = useState<TJson>();
@@ -23,7 +24,7 @@ export function useFetchJson<TBody, TJson>({ route, method, lazy = false }: useF
     setLoading(true);
 
     fetchJson<TBody, TJson>({
-      url: `${endpoint}/${route}`,
+      url: url ?? `${endpoint}/${route}`,
       method,
       body
     })

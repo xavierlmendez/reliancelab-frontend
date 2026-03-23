@@ -45,6 +45,7 @@ export const usePostChat = (body: {
   }>({
     route: 'chat',
     method: 'POST',
+    url: '/api/chat',
   })
 );
 

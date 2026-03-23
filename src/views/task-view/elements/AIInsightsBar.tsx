@@ -1,20 +1,25 @@
-import { useState, type ReactElement } from "react";
+import { useState, useEffect, type ReactElement } from "react";
 import { AtomIcon, EmptyIcon } from "@phosphor-icons/react";
 import { Stack } from "../../../components/Stack";
 import { Row } from "../../../components/Row";
+import { usePostChat } from "../../../hooks/serverFunctions";
+import { useTaskViewContext } from "../../../contexts/TaskViewContext";
 
 export function AIInsightsBar(): ReactElement {
+  const { sessionID } = useTaskViewContext();
   const [promptText, setPromptText] = useState<string>('');
+  const [response, setResponse] = useState<string>('');
+  const [{ data, loading }, request] = usePostChat({ session_id: sessionID, prompt: promptText });
 
-  const [loading, setLoading] = useState<boolean>(false);
+  useEffect(() => {
+    if (data?.response) {
+      setResponse(data.response);
+    }
+  }, [data]);
 
   function submitPrompt(prompt = promptText) {
     setPromptText('');
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    request({ session_id: sessionID, prompt });
   }
 
   function onInputKeyDown(key: string) {
@@ -45,6 +50,8 @@ export function AIInsightsBar(): ReactElement {
                 <AtomIcon size={32} />
                 <div>loading...</div>
               </>
+            ) : response ? (
+              <div>{response}</div>
             ) : (
               <>
                 <EmptyIcon size={32} />

@@ -1,0 +1,17 @@
+server {
+    listen 80;
+    server_name localhost;
+    root /usr/share/nginx/html;
+    index index.html;
+
+    location = /api/chat {
+        proxy_pass ${BACKEND_URL}/chat;
+        proxy_ssl_server_name on;
+        proxy_set_header Content-Type "application/json";
+        proxy_set_header X-Frontend-Secret "${FRONTEND_SECRET}";
+    }
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
