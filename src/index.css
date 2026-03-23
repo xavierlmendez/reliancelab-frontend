@@ -23,7 +23,7 @@
   font-size: 14px;
 
   /* general theme */
-  color-scheme: light dark;
+  color-scheme: dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: var(--background-dark-color);
 
@@ -50,6 +50,7 @@ textarea {
   background-color: var(--input-background-color);
   border-color: var(--input-border-color);
 
+  color: inherit;
   font-weight: inherit;
   font-family: inherit;
 
@@ -68,6 +69,7 @@ input {
   padding-left: 1.2em;
   padding-right: 1.2em;
 
+  color: inherit;
   font-weight: inherit;
   font-family: inherit;
 
@@ -87,6 +89,7 @@ button {
   padding-left: 1.2em;
   padding-right: 1.2em;
 
+  color: inherit;
   font-weight: inherit;
   font-family: inherit;
 

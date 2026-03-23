@@ -37,6 +37,7 @@ export function getMockTaskData() {
     totalTasks: 1,
     taskIndex: 0,
     taskID: 'mock_task_id',
+    sessionID: 'mock_session_id',
     problemStatementHTML: MOCK_PROBLEM_STATEMENT_HTML,
     codeSnippet: MOCK_CODE_SNIPPET,
   };
