@@ -9,7 +9,7 @@ export function AIInsightsBar(): ReactElement {
   const { sessionID } = useTaskViewContext();
   const [promptText, setPromptText] = useState<string>('');
   const [response, setResponse] = useState<string>('');
-  const [{ data, loading }, request] = usePostChat({ session_id: sessionID, prompt: promptText });
+  const [{ data, loading }, request] = usePostChat();
 
   useEffect(() => {
     if (data?.response) {

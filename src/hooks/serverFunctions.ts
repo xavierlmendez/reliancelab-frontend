@@ -25,22 +25,22 @@ export const useGetTask = () => (
   })
 );
 
-export const usePostTask = (body: {
-  sessionId: string;
-  userScore: UserScore;
-  taskId: string;
-}) => (
-  useFetchJson<typeof body, TaskResponse>({
+export const usePostTask = () => (
+  useFetchJson<{
+    sessionId: string;
+    userScore: UserScore;
+    taskId: string;
+  }, TaskResponse>({
     route: 'task',
     method: 'POST',
   })
 );
 
-export const usePostChat = (body: {
-  session_id: string;
-  prompt: string;
-}) => (
-  useFetchJson<typeof body, {
+export const usePostChat = () => (
+  useFetchJson<{
+    session_id: string;
+    prompt: string;
+  }, {
     response: string;
   }>({
     route: 'chat',
@@ -49,13 +49,13 @@ export const usePostChat = (body: {
   })
 );
 
-export const usePostOnboarding = (body: {
-  session_id: string;
-  responses: {
-    additionalProp1: string;
-  }
-}) => (
-  useFetchJson<typeof body, {
+export const usePostOnboarding = () => (
+  useFetchJson<{
+    session_id: string;
+    responses: {
+      additionalProp1: string;
+    }
+  }, {
     success: boolean;
   }>({
     route: 'onboarding',
@@ -63,13 +63,13 @@ export const usePostOnboarding = (body: {
   })
 );
 
-export const usePostSurvey = (body: {
-  session_id: string;
+export const usePostSurvey = () => (
+  useFetchJson<{
+    session_id: string;
     responses: {
-    additionalProp1: string;
-  }
-}) => (
-  useFetchJson<typeof body, {
+      additionalProp1: string;
+    }
+  }, {
     success: boolean;
   }>({
     route: 'survey',
