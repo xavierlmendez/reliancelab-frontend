@@ -1,19 +1,11 @@
 import { createContext, useContext, useEffect, useState, type Dispatch, type ReactElement, type ReactNode, type SetStateAction } from "react";
-import { getMockTaskData } from "../constants/MockTaskData";
 import { useToastContext } from "./ToastContext";
 import type { UserScore } from "../types/UserScore";
 import { useRoutingContext } from "./RoutingContext";
+import { useSessionContext } from "./SessionContext";
+import { useGetTask, usePostTask, type TaskResponse } from "../hooks/serverFunctions";
 
-interface TaskData {
-  totalTasks: number;
-  taskIndex: number;
-  taskID: string;
-  sessionID: string;
-  problemStatementHTML: string;
-  codeSnippet: string;
-}
-
-interface TaskViewContextValue extends TaskData {
+interface TaskViewContextValue extends TaskResponse {
   loading: boolean;
   isFirstTask: boolean;
   isLastTask: boolean;
@@ -32,44 +24,61 @@ const TaskViewContext = createContext<TaskViewContextValue>(
 export function TaskViewProvider({ children }: { children: ReactNode }): ReactElement | null {
   const { pushToast } = useToastContext();
   const { navigateToNextRoute } = useRoutingContext();
+  const { sessionId, taskIndex: initialTaskIndex } = useSessionContext();
 
-  const [loading, setLoading] = useState<boolean>(false);
-  const [taskData, setTaskData] = useState<TaskData>();
+  const [taskData, setTaskData] = useState<TaskResponse>();
   const [userScore, setUserScore] = useState<UserScore | null>(null);
   const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
 
+  const [{ data: getTaskData, loading: getTaskLoading }, getTask] = useGetTask();
+  const [{ data: postTaskData, loading: postTaskLoading }, postTask] = usePostTask();
+
+  const loading = getTaskLoading || postTaskLoading;
   const isFirstTask = taskData!! && (taskData.taskIndex === 0);
   const isLastTask = taskData!! && (taskData.taskIndex === (taskData.totalTasks - 1));
 
   useEffect(() => {
-    /** @TODO implement backend retrieval logic here */
-    setTaskData(getMockTaskData());
+    // retrieve initial task data
+    getTask(undefined, { session_id: sessionId, task_index: initialTaskIndex });
   }, []);
+
+  useEffect(() => {
+    // sets initial task data
+    if (getTaskData) setTaskData(getTaskData);
+  }, [getTaskData]);
+
+  useEffect(() => {
+    // sets next task data
+    if (postTaskData) {
+      showScoreSavedToast();
+      resetSelectionStates();
+      setTaskData(postTaskData);
+      if (isLastTask) navigateToNextRoute();
+    }
+  }, [postTaskData])
 
   function navigateNextTask(): void {
     if (!loading && userScore) {
-      setLoading(true);
       showSavingScoreToast();
+
+      postTask({
+        sessionId,
+        userScore,
+        taskId: taskData!.taskId
+      });
 
       /** @TODO implement backend saving and retrieval logic here */
       setTimeout(() => {
-        setLoading(false);
         showScoreSavedToast();
         resetSelectionStates();
-        if (isLastTask) navigateToNextRoute();
+        navigateToNextRoute();
       }, 250);
     }
   }
 
   function navigatePreviousTask(): void {
     if (!loading && !isFirstTask) {
-      setLoading(true);
       showProceedingToPreviousTaskToast();
-
-      /** @TODO implement backend retrieval logic here */
-      setTimeout(() => {
-        setLoading(false);
-      }, 250);
     }
   }
 
@@ -79,7 +88,7 @@ export function TaskViewProvider({ children }: { children: ReactNode }): ReactEl
   }
 
   function showSavingScoreToast() {
-      pushToast({ type: 'information', message: 'Saving Score...', timeToLive: 1500 });
+    pushToast({ type: 'information', message: 'Saving Score...', timeToLive: 1500 });
   }
 
   function showScoreSavedToast() {
@@ -87,7 +96,7 @@ export function TaskViewProvider({ children }: { children: ReactNode }): ReactEl
   }
 
   function showProceedingToPreviousTaskToast() {
-    pushToast({ type: 'information',  message: 'Proceeding to previous task...' });
+    pushToast({ type: 'information', message: 'Proceeding to previous task...' });
   }
 
   if (!taskData) {

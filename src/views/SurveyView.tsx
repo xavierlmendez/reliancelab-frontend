@@ -1,12 +1,12 @@
 import { useEffect, type ReactElement } from "react";
 import { GraduationCapIcon } from "@phosphor-icons/react";
-import { Stack } from "../../components/Stack";
-import { useRoutingContext } from "../../contexts/RoutingContext";
-import { useToastContext } from "../../contexts/ToastContext";
-import { SurveyQuestion } from "../../components/SurveyQuestion";
-import { usePostSurvey } from "../../hooks/serverFunctions";
-import { useSessionContext } from "../../contexts/SessionContext";
-import { useSurveyContext } from "../../contexts/SurveyContext";
+import { Stack } from "../components/Stack";
+import { useRoutingContext } from "../contexts/RoutingContext";
+import { useToastContext } from "../contexts/ToastContext";
+import { SurveyQuestion } from "../components/SurveyQuestion";
+import { usePostSurvey } from "../hooks/serverFunctions";
+import { useSessionContext } from "../contexts/SessionContext";
+import { useSurveyContext } from "../contexts/SurveyContext";
 
 export function SurveyView(): ReactElement {
   const { sessionId } = useSessionContext();

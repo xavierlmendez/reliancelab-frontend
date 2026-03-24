@@ -3,6 +3,7 @@ import type { Route } from "../types/Route";
 
 const VIEW_ORDER: Route[] = [
   'onboarding',
+  'instructions',
   'task',
   'survey',
   'complete',

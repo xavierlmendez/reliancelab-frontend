@@ -6,10 +6,9 @@ interface useFetchJsonProps {
   method: FetchJsonProps<any>['method'],
   route: string;
   lazy?: boolean;
-  url?: string;
 }
 
-export function useFetchJson<TBody, TJson>({ route, method, lazy = false, url }: useFetchJsonProps) {
+export function useFetchJson<TBody, TJson>({ route, method, lazy = false }: useFetchJsonProps) {
   const { endpoint } = useFetchContext();
 
   const [data, setData] = useState<TJson>();
@@ -20,14 +19,19 @@ export function useFetchJson<TBody, TJson>({ route, method, lazy = false, url }:
     if (method === 'GET' && !lazy) request();
   }, [method])
 
-  function request(body?: TBody) {
+  function request(
+    body?: TBody,
+    queryParams?: Record<string, string | number>
+  ) {
     setLoading(true);
 
-    fetchJson<TBody, TJson>({
-      url: url ?? `${endpoint}/${route}`,
-      method,
-      body
-    })
+    let url = `${endpoint}/${route}`;
+
+    if (queryParams && Object.values(queryParams).length > 0) {
+      url = `${url}/?${Object.entries(queryParams).map(([k, v]) => `${k}=${v}`).join('&')}`;
+    }
+
+    fetchJson<TBody, TJson>({ url, method, body })
       .then((response) => {
         setLoading(false);
 

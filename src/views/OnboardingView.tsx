@@ -1,12 +1,12 @@
 import { useEffect, type ReactElement } from "react";
 import { CheeseIcon } from "@phosphor-icons/react";
-import { Stack } from "../../components/Stack";
-import { useRoutingContext } from "../../contexts/RoutingContext";
-import { SurveyQuestion } from "../../components/SurveyQuestion";
-import { useSurveyContext } from "../../contexts/SurveyContext";
-import { usePostOnboarding } from "../../hooks/serverFunctions";
-import { useToastContext } from "../../contexts/ToastContext";
-import { useSessionContext } from "../../contexts/SessionContext";
+import { Stack } from "../components/Stack";
+import { useRoutingContext } from "../contexts/RoutingContext";
+import { SurveyQuestion } from "../components/SurveyQuestion";
+import { useSurveyContext } from "../contexts/SurveyContext";
+import { usePostOnboarding } from "../hooks/serverFunctions";
+import { useToastContext } from "../contexts/ToastContext";
+import { useSessionContext } from "../contexts/SessionContext";
 
 export function OnboardingView(): ReactElement {
   const { sessionId } = useSessionContext();

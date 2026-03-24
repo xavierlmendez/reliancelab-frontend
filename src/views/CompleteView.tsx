@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import { CheersIcon } from "@phosphor-icons/react";
-import { Stack } from "../../components/Stack";
+import { Stack } from "../components/Stack";
 
 export function CompleteView(): ReactElement {
   return (

@@ -4,7 +4,7 @@ import { Stack } from "../../../components/Stack";
 import { useTaskViewContext } from "../../../contexts/TaskViewContext";
 
 export function ProblemStatementBar(): ReactElement {
-  const { problemStatementHTML } = useTaskViewContext();
+  const { problemStatementHtml } = useTaskViewContext();
 
   return (
     <Stack>
@@ -12,7 +12,7 @@ export function ProblemStatementBar(): ReactElement {
         Problem Statement
       </div>
       <div className="section-side-content section-border no-left-margin">
-        <Html html={problemStatementHTML} />
+        <Html html={problemStatementHtml} />
       </div>
     </Stack>
   );

@@ -1,7 +1,7 @@
 import type { UserScore } from "../types/UserScore";
 import { useFetchJson } from "./useFetchJson";
 
-type TaskResponse = {
+export type TaskResponse = {
   totalTasks: number;
   taskIndex: number;
   taskId: string;
@@ -20,8 +20,9 @@ export const useGetSession = () => (
 
 export const useGetTask = () => (
   useFetchJson<undefined, TaskResponse>({
-    route: 'task',
+    route: `task`,
     method: 'GET',
+    lazy: true,
   })
 );
 
@@ -45,7 +46,6 @@ export const usePostChat = () => (
   }>({
     route: 'chat',
     method: 'POST',
-    url: '/api/chat',
   })
 );
 
