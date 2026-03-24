@@ -1,6 +1,5 @@
 import { ToastDisplay } from './components/ToastDisplay/ToastController';
 import { useRoutingContext } from './contexts/RoutingContext';
-import { useSessionContext } from './contexts/SessionContext';
 import { SurveyProvider } from './contexts/SurveyContext';
 import { TaskViewProvider } from './contexts/TaskViewContext';
 import { CompleteView } from './views/CompleteView';

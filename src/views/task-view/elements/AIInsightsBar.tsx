@@ -3,10 +3,10 @@ import { AtomIcon, EmptyIcon } from "@phosphor-icons/react";
 import { Stack } from "../../../components/Stack";
 import { Row } from "../../../components/Row";
 import { usePostChat } from "../../../hooks/serverFunctions";
-import { useTaskViewContext } from "../../../contexts/TaskViewContext";
+import { useSessionContext } from "../../../contexts/SessionContext";
 
 export function AIInsightsBar(): ReactElement {
-  const { sessionID } = useTaskViewContext();
+  const { sessionId } = useSessionContext();
   const [promptText, setPromptText] = useState<string>('');
   const [response, setResponse] = useState<string>('');
   const [{ data, loading }, request] = usePostChat();
@@ -19,7 +19,7 @@ export function AIInsightsBar(): ReactElement {
 
   function submitPrompt(prompt = promptText) {
     setPromptText('');
-    request({ session_id: sessionID, prompt });
+    request({ session_id: sessionId, prompt });
   }
 
   function onInputKeyDown(key: string) {
