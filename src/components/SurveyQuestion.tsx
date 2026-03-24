@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactElement } from "react";
+import { useEffect, type ButtonHTMLAttributes, type ReactElement } from "react";
 import { Stack } from "./Stack";
 import { Row } from "./Row";
 import { useSurveyContext } from "../contexts/SurveyContext";
@@ -28,6 +28,11 @@ export function SurveyQuestion({ id, text }: SurveyQuestionProps): ReactElement 
       onClick: () => setQuestionAnswer(id, buttonAnswer),
     };
   }
+
+  useEffect(() => {
+    // automatically subscribe this question as entry in the context on component mount
+    setQuestionAnswer(id, "");
+  }, [])
 
   return (
     <Stack gap={12} justifyContent="center">

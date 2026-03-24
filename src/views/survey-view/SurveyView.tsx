@@ -1,24 +1,35 @@
-import { useState, type ReactElement } from "react";
+import { useEffect, type ReactElement } from "react";
 import { GraduationCapIcon } from "@phosphor-icons/react";
 import { Stack } from "../../components/Stack";
 import { useRoutingContext } from "../../contexts/RoutingContext";
 import { useToastContext } from "../../contexts/ToastContext";
+import { SurveyQuestion } from "../../components/SurveyQuestion";
+import { usePostSurvey } from "../../hooks/serverFunctions";
+import { useSessionContext } from "../../contexts/SessionContext";
+import { useSurveyContext } from "../../contexts/SurveyContext";
 
 export function SurveyView(): ReactElement {
+  const { sessionId } = useSessionContext();
   const { pushToast } = useToastContext();
   const { navigateToNextRoute } = useRoutingContext();
-  const [loading, setLoading] = useState<boolean>(false);
+  const { questionAnswers, allQuestionsAnswered } = useSurveyContext();
+  const [{ data: surveyData, loading: surveyLoading }, postSurvey] = usePostSurvey();
+
+  useEffect(() => {
+    if (surveyData) onPostSuccess();
+  }, [surveyData])
 
   function onClickSubmit() {
-    setLoading(true);
     pushToast({ type: 'information', message: 'Saving Answers...', timeToLive: 1500 });
+    postSurvey({ session_id: sessionId, responses: questionAnswers });
 
-    /** @TODO implement backend saving logic here */
-    setTimeout(() => {
-      setLoading(false);
-      pushToast({ type: 'success', message: 'Answers saved.', timeToLive: 1500 });
-      navigateToNextRoute();
-    }, 250);
+    /** @TODO delete setTimeout when postSurvey works */
+    setTimeout(() => onPostSuccess, 250);
+  }
+
+  function onPostSuccess() {
+    pushToast({ type: 'success', message: 'Answers saved.', timeToLive: 1500 });
+    navigateToNextRoute();
   }
 
   return (
@@ -29,14 +40,31 @@ export function SurveyView(): ReactElement {
         </h1>
         <GraduationCapIcon size={64} />
         <div>
-          Please leave feedback on your experience in regards to your confidence in AI generated solutions.
-        </div>
-        <textarea style={{ height: 250, width: 500 }} />
-        <div>
-          Click 'Submit' to submit your answers.
+          Please answer the questionnaire then click 'Submit' to finalize your answers.
         </div>
       </Stack>
-      <button onClick={onClickSubmit} disabled={loading}>Submit</button>
+      <hr style={{ width: 500 }} />
+      <Stack gap={32}>
+        <SurveyQuestion
+          id="confidence"
+          text="I was confident in the AI generated solutions and explanations."
+        />
+        <SurveyQuestion
+          id="perceived_familiarity"
+          text="I felt that the AI generated explanations were familiar"
+        />
+        <SurveyQuestion
+          id="workload"
+          text="I felt comfortable with the workload presented."
+        />
+      </Stack>
+      <hr style={{ width: 500 }} />
+      <button
+        onClick={onClickSubmit}
+        disabled={surveyLoading || !allQuestionsAnswered()}
+      >
+        Submit
+      </button>
     </Stack>
   );
 }

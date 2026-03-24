@@ -137,10 +137,7 @@ button:disabled {
   cursor: not-allowed;
 }
 
-button:disabled, .button-success:disabled, .button-error:disabled {
-  border-color: var(--input-border-color);
-}
-
-.button-success-filled:disabled, .button-error-filled:disabled {
-  color: var(--incomplete-color);
+button:disabled {
+  border-color: var(--outline-color) !important;
+  color: var(--outline-color) !important;
 }

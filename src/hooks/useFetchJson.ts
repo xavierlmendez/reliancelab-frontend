@@ -20,7 +20,7 @@ export function useFetchJson<TBody, TJson>({ route, method, lazy = false, url }:
     if (method === 'GET' && !lazy) request();
   }, [method])
 
-  function request(body?: any) {
+  function request(body?: TBody) {
     setLoading(true);
 
     fetchJson<TBody, TJson>({

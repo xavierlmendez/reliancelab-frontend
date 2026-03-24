@@ -11,7 +11,7 @@ type TaskResponse = {
 
 export const useGetSession = () => (
   useFetchJson<undefined, TaskResponse & {
-    sessionID: string;
+    sessionId: string;
   }>({
     route: 'session',
     method: 'GET',
@@ -52,9 +52,7 @@ export const usePostChat = () => (
 export const usePostOnboarding = () => (
   useFetchJson<{
     session_id: string;
-    responses: {
-      additionalProp1: string;
-    }
+    responses: Record<string, string>
   }, {
     success: boolean;
   }>({
@@ -66,9 +64,7 @@ export const usePostOnboarding = () => (
 export const usePostSurvey = () => (
   useFetchJson<{
     session_id: string;
-    responses: {
-      additionalProp1: string;
-    }
+    responses: Record<string, string>
   }, {
     success: boolean;
   }>({

@@ -17,7 +17,7 @@ function App() {
         switch (currentRoute) {
           case 'onboarding': return (<SurveyProvider><OnboardingView /></SurveyProvider>);
           case 'task': return (<TaskViewProvider><TaskView /></TaskViewProvider>);
-          case 'survey': return (<SurveyView />);
+          case 'survey': return (<SurveyProvider><SurveyView /></SurveyProvider>);
           case 'complete': return (<CompleteView />);
         }
       })()}
