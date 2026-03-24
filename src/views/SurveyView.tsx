@@ -22,9 +22,6 @@ export function SurveyView(): ReactElement {
   function onClickSubmit() {
     pushToast({ type: 'information', message: 'Saving Answers...', timeToLive: 1500 });
     postSurvey({ session_id: sessionId, responses: questionAnswers });
-
-    /** @TODO delete setTimeout when postSurvey works */
-    setTimeout(() => onPostSuccess, 250);
   }
 
   function onPostSuccess() {
