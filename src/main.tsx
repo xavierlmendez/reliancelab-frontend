@@ -3,19 +3,19 @@ import { createRoot } from 'react-dom/client'
 import { RoutingProvider } from './contexts/RoutingContext.tsx'
 import { ToastProvider } from './contexts/ToastContext.tsx'
 import { FetchProvider } from './contexts/FetchContext.tsx'
-import { SessionProvider } from './contexts/SessionContext.tsx'
 import App from './App.tsx'
 import './index.css'
+import { PreSessionProvider } from './contexts/PreSessionContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <FetchProvider endpoint="http://api.reliance-hci.com">
       <ToastProvider>
-        <SessionProvider>
-          <RoutingProvider>
+        <RoutingProvider>
+          <PreSessionProvider>
             <App />
-          </RoutingProvider>
-        </SessionProvider>
+          </PreSessionProvider>
+        </RoutingProvider>
       </ToastProvider>
     </FetchProvider>
   </StrictMode>

@@ -15,6 +15,7 @@ export const useGetSession = () => (
   }>({
     route: 'session',
     method: 'GET',
+    lazy: true,
   })
 );
 

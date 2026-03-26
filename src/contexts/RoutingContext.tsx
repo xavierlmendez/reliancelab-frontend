@@ -2,6 +2,7 @@ import { createContext, useContext, useState, type ReactElement, type ReactNode 
 import type { Route } from "../types/Route";
 
 const VIEW_ORDER: Route[] = [
+  'login',
   'onboarding',
   'instructions',
   'task',
@@ -13,6 +14,7 @@ interface RoutingContextValue {
   currentRoute: Route;
   navigateToNextRoute: () => void;
   navigateToPreviousRoute: () => void;
+  navigateToRoute: (r: Route) => void;
 }
 
 const RoutingContext = createContext<RoutingContextValue>(
@@ -20,8 +22,8 @@ const RoutingContext = createContext<RoutingContextValue>(
 );
 
 export function RoutingProvider({ children }: { children: ReactNode }): ReactElement {
-  const [currentRoute, setCurrentRoute] = useState<Route>('onboarding');
-  
+  const [currentRoute, setCurrentRoute] = useState<Route>('login');
+
   function navigateToNextRoute() {
     const nextViewIndex = Math.min(VIEW_ORDER.findIndex((v) => v === currentRoute) + 1, VIEW_ORDER.length - 1)
     setCurrentRoute(VIEW_ORDER[nextViewIndex])
@@ -32,10 +34,15 @@ export function RoutingProvider({ children }: { children: ReactNode }): ReactEle
     setCurrentRoute(VIEW_ORDER[previousViewIndex])
   }
 
+  function navigateToRoute(route: Route) {
+    setCurrentRoute(route);
+  }
+
   const contextValue = {
     currentRoute,
     navigateToNextRoute,
     navigateToPreviousRoute,
+    navigateToRoute,
   };
 
   return (

@@ -1,5 +1,6 @@
 import { createContext, useContext, type ReactElement, type ReactNode } from "react"
 import { useGetSession } from "../hooks/serverFunctions";
+import { usePreSessionContext } from "./PreSessionContext";
 
 interface SessionProviderProps {
   children: ReactNode;
@@ -14,9 +15,9 @@ const SessionContext = createContext<SessionContextValue>(
 );
 
 export function SessionProvider({ children }: SessionProviderProps): ReactElement | null {
-  const [{ data: sessionData, loading: sessionLoading }] = useGetSession();
+  const { sessionData } = usePreSessionContext();
 
-  if (!sessionData || sessionLoading) {
+  if (!sessionData) {
     return null;
   }
 

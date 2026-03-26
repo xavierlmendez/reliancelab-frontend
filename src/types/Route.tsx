@@ -1,4 +1,5 @@
 export type Route = (
+  | 'login'
   | 'onboarding'
   | 'instructions'
   | 'task'
