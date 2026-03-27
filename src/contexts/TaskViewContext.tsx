@@ -53,11 +53,7 @@ export function TaskViewProvider({ children }: { children: ReactNode }): ReactEl
       showScoreSavedToast();
       resetSelectionStates();
       setTaskData(postTaskData);
-      
-      const last = postTaskData.taskIndex === (postTaskData.totalTasks - 1);
-      if (last) {
-        navigateToNextRoute();
-      }
+      if (isLastTask) navigateToNextRoute();
     }
   }, [postTaskData])
 
