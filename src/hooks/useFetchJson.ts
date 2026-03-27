@@ -28,7 +28,10 @@ export function useFetchJson<TBody, TJson>({ route, method, lazy = false }: useF
     let url = `${endpoint}/${route}`;
 
     if (queryParams && Object.values(queryParams).length > 0) {
-      url = `${url}/?${Object.entries(queryParams).map(([k, v]) => `${k}=${v}`).join('&')}`;
+      const query = new URLSearchParams(
+        Object.entries(queryParams).reduce((acc, [k, v]) => ({ ...acc, [k]: String(v) }), {} as Record<string, string>)
+      ).toString();
+      url = `${url}?${query}`;
     }
 
     fetchJson<TBody, TJson>({ url, method, body })
