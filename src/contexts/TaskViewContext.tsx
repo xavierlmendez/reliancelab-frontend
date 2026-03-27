@@ -4,6 +4,8 @@ import type { UserScore } from "../types/UserScore";
 import { useRoutingContext } from "./RoutingContext";
 import { useSessionContext } from "./SessionContext";
 import { useGetTask, usePostTask, type TaskResponse } from "../hooks/serverFunctions";
+import { useFetchContext } from "./FetchContext";
+import { logEvent } from "../utilities/logEvent";
 
 interface TaskViewContextValue extends TaskResponse {
   loading: boolean;
@@ -25,6 +27,7 @@ export function TaskViewProvider({ children }: { children: ReactNode }): ReactEl
   const { pushToast } = useToastContext();
   const { navigateToNextRoute } = useRoutingContext();
   const { sessionId, taskIndex: initialTaskIndex } = useSessionContext();
+  const { endpoint } = useFetchContext();
 
   const [taskData, setTaskData] = useState<TaskResponse>();
   const [userScore, setUserScore] = useState<UserScore | null>(null);
@@ -59,6 +62,7 @@ export function TaskViewProvider({ children }: { children: ReactNode }): ReactEl
 
   function navigateNextTask(): void {
     if (!loading && userScore) {
+      logEvent(endpoint, sessionId, 'decision_submit', taskData?.taskId, { score: userScore });
       showSavingScoreToast();
 
       postTask({
