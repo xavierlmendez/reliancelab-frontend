@@ -53,28 +53,25 @@ export function TaskViewProvider({ children }: { children: ReactNode }): ReactEl
       showScoreSavedToast();
       resetSelectionStates();
       setTaskData(postTaskData);
-      if (isLastTask) navigateToNextRoute();
+      
+      const last = postTaskData.taskIndex === (postTaskData.totalTasks - 1);
+      if (last) {
+        navigateToNextRoute();
+      }
     }
   }, [postTaskData])
 
   function navigateNextTask(): void {
-    if (!loading && userScore) {
-      showSavingScoreToast();
+  if (!loading && userScore) {
+    showSavingScoreToast();
 
-      postTask({
-        sessionId,
-        userScore,
-        taskId: taskData!.taskId
-      });
-
-      /** @TODO implement backend saving and retrieval logic here */
-      setTimeout(() => {
-        showScoreSavedToast();
-        resetSelectionStates();
-        navigateToNextRoute();
-      }, 250);
-    }
+    postTask({
+      sessionId,
+      userScore,
+      taskId: taskData!.taskId
+    });
   }
+}
 
   function navigatePreviousTask(): void {
     if (!loading && !isFirstTask) {
