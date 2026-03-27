@@ -4,9 +4,15 @@ import { Stack } from "../../../components/Stack";
 import { Row } from "../../../components/Row";
 import { usePostChat } from "../../../hooks/serverFunctions";
 import { useSessionContext } from "../../../contexts/SessionContext";
+import { useTaskViewContext } from "../../../contexts/TaskViewContext";
+
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+}
 
 export function AIInsightsBar(): ReactElement {
   const { sessionId } = useSessionContext();
+  const { problemStatementHtml } = useTaskViewContext();
   const [promptText, setPromptText] = useState<string>('');
   const [response, setResponse] = useState<string>('');
   const [{ data, loading }, request] = usePostChat();
@@ -17,9 +23,15 @@ export function AIInsightsBar(): ReactElement {
     }
   }, [data]);
 
-  function submitPrompt(prompt = promptText) {
+  function composePrompt(userInput: string): string {
+    const question = stripHtml(problemStatementHtml ?? '');
+    if (!question) return userInput;
+    return `Task context: ${question}\n\n${userInput}`;
+  }
+
+  function submitPrompt(userInput = promptText) {
     setPromptText('');
-    request({ session_id: sessionId, prompt });
+    request({ session_id: sessionId, prompt: composePrompt(userInput) });
   }
 
   function onInputKeyDown(key: string) {
