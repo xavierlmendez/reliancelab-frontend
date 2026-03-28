@@ -59,7 +59,7 @@ export function TaskViewFooter(): ReactElement {
               </Row>
             </button>
             <div>
-              {`Task ${taskIndex + 1} of ${totalTasks}`}
+              {`Task ${taskIndex} of ${totalTasks}`}
             </div>
             <button onClick={onClickNext} disabled={loading}>
               <Row gap={4} alignItems="center" justifyContent="center">
