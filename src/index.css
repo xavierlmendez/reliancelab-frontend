@@ -57,7 +57,7 @@ textarea {
   resize: none;
 }
 
-input {
+input, textarea {
   flex-grow: 1;
 
   border-radius: 0px;
@@ -72,9 +72,14 @@ input {
   color: inherit;
   font-weight: inherit;
   font-family: inherit;
+  font-size: 14px;
 
   background-color: var(--input-background-color);
   border-color: var(--input-border-color);
+}
+
+textarea {
+  height: 200px;
 }
 
 button {
