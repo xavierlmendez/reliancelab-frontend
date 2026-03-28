@@ -70,13 +70,6 @@ export function TaskViewProvider({ children }: { children: ReactNode }): ReactEl
         userScore,
         taskId: taskData!.taskId
       });
-
-      /** @TODO implement backend saving and retrieval logic here */
-      setTimeout(() => {
-        showScoreSavedToast();
-        resetSelectionStates();
-        navigateToNextRoute();
-      }, 250);
     }
   }
 
