@@ -5,6 +5,8 @@ import { Row } from "../../../components/Row";
 import { usePostChat } from "../../../hooks/serverFunctions";
 import { useSessionContext } from "../../../contexts/SessionContext";
 import { useTaskViewContext } from "../../../contexts/TaskViewContext";
+import { useFetchContext } from "../../../contexts/FetchContext";
+import { logEvent } from "../../../utilities/logEvent";
 
 function stripHtml(html: string): string {
   return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
@@ -12,7 +14,8 @@ function stripHtml(html: string): string {
 
 export function AIInsightsBar(): ReactElement {
   const { sessionId } = useSessionContext();
-  const { problemStatementHtml } = useTaskViewContext();
+  const { problemStatementHtml, taskId } = useTaskViewContext();
+  const { endpoint } = useFetchContext();
   const [promptText, setPromptText] = useState<string>('');
   const [response, setResponse] = useState<string>('');
   const [{ data, loading }, request] = usePostChat();
@@ -31,6 +34,7 @@ export function AIInsightsBar(): ReactElement {
 
   function submitPrompt(userInput = promptText) {
     setPromptText('');
+    logEvent(endpoint, sessionId, 'chat_submit', taskId, { prompt: userInput });
     request({ session_id: sessionId, prompt: composePrompt(userInput) });
   }
 
@@ -44,13 +48,22 @@ export function AIInsightsBar(): ReactElement {
         AI Insights
       </div>
       <div className="section-side-content section-border no-right-margin">
-        <button onClick={() => submitPrompt('find code issues')}>
+        <button onClick={() => {
+          logEvent(endpoint, sessionId, 'suggestion_click', taskId, { suggestion: 'find code issues' });
+          submitPrompt('find code issues');
+        }}>
           Find issues
         </button>
-        <button onClick={() => submitPrompt('do a code review')}>
+        <button onClick={() => {
+          logEvent(endpoint, sessionId, 'suggestion_click', taskId, { suggestion: 'do a code review' });
+          submitPrompt('do a code review');
+        }}>
           Do a code review
         </button>
-        <button onClick={() => submitPrompt('explain the code')}>
+        <button onClick={() => {
+          logEvent(endpoint, sessionId, 'suggestion_click', taskId, { suggestion: 'explain the code' });
+          submitPrompt('explain the code');
+        }}>
           Explain the code
         </button>
       </div>

@@ -1,15 +1,17 @@
+const FRONTEND_SECRET = import.meta.env.VITE_FRONTEND_SECRET ?? 'unset';
+
 export interface FetchJsonProps<TBody> {
-  url: string,
-  method: 'GET' | 'POST'
+  url: string;
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
   body?: TBody;
 }
 
 export type FetchJsonReturn<TJson> = {
-  type: 'success',
-  data: TJson,
+  type: 'success';
+  data: TJson;
 } | {
-  type: 'fail',
-  error: Error,
+  type: 'fail';
+  error: Error;
 }
 
 export async function fetchJson<TBody, TJson>({
@@ -19,8 +21,11 @@ export async function fetchJson<TBody, TJson>({
 }: FetchJsonProps<TBody>): Promise<FetchJsonReturn<TJson>> {
   return fetch(url, {
     method: method as string,
-    headers: { 'Content-Type': 'application/json' },
-    ...body ? { body: JSON.stringify(body) } : {}
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Frontend-Secret': FRONTEND_SECRET,
+    },
+    ...(body ? { body: JSON.stringify(body) } : {}),
   })
     .then((response) => {
       if (response.ok) return response;
@@ -28,10 +33,10 @@ export async function fetchJson<TBody, TJson>({
     })
     .then(async (response) => {
       return response.json()
-        .then((data) => ({ type: 'success', data }))
+        .then((data) => ({ type: 'success' as const, data }));
     })
-    .catch((error) => {
+    .catch((error: unknown) => {
       console.error(error);
-      return { type: 'fail', error };
+      return { type: 'fail' as const, error: error instanceof Error ? error : new Error(String(error)) };
     });
 }
