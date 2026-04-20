@@ -61,6 +61,14 @@ export function TaskViewProvider({ children }: { children: ReactNode }): ReactEl
   }, [postTaskData])
 
   function navigateNextTask(): void {
+  if (!loading && userScore) {
+    showSavingScoreToast();
+
+    postTask({
+      sessionId,
+      userScore,
+      taskId: taskData!.taskId
+    });
     if (!loading && userScore) {
       logEvent(endpoint, sessionId, 'decision_submit', taskData?.taskId, { score: userScore });
       showSavingScoreToast();
@@ -72,6 +80,7 @@ export function TaskViewProvider({ children }: { children: ReactNode }): ReactEl
       });
     }
   }
+}
 
   function navigatePreviousTask(): void {
     if (!loading && !isFirstTask) {
