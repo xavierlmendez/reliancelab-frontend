@@ -1,6 +1,11 @@
 const FRONTEND_SECRET = import.meta.env.VITE_FRONTEND_SECRET ?? 'unset';
 
-export type EventType = 'suggestion_click' | 'chat_submit' | 'decision_submit' | 'task_load';
+export type EventType = (
+  | 'suggestion_click'
+  | 'chat_submit'
+  | 'decision_submit'
+  | 'task_load'
+);
 
 export function logEvent(
   endpoint: string,
