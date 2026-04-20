@@ -50,9 +50,7 @@ export function PreSessionProvider({ children }: PreSessionProviderProps): React
       pushToast({ type: 'success', message: 'Session loaded', timeToLive: 1500 });
       setStoredSessionId(sessionData.sessionId);
 
-      if (sessionData.taskIndex === (sessionData.totalTasks - 1)) {
-        navigateToRoute('survey');
-      } else if (sessionData.taskIndex > 0) {
+      if (sessionData.taskIndex > 0) {
         navigateToRoute('task');
       } else {
         navigateToRoute('onboarding');

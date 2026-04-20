@@ -7,9 +7,16 @@ import App from './App.tsx'
 import './index.css'
 import { PreSessionProvider } from './contexts/PreSessionContext.tsx'
 
+const API_ENDPOINT = (
+  import.meta.env.VITE_API_BASE_URL ??
+  import.meta.env.VITE_BACKEND_URL ??
+  import.meta.env.VITE_API_URL ??
+  'http://api.reliance-hci.com'
+).replace(/\/+$/, '')
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <FetchProvider endpoint="http://api.reliance-hci.com">
+    <FetchProvider endpoint={API_ENDPOINT}>
       <ToastProvider>
         <RoutingProvider>
           <PreSessionProvider>

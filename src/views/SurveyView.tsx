@@ -7,6 +7,7 @@ import { SurveyQuestion } from "../components/SurveyQuestion";
 import { usePostSurvey } from "../hooks/serverFunctions";
 import { useSessionContext } from "../contexts/SessionContext";
 import { useSurveyContext } from "../contexts/SurveyContext";
+import { SurveyFreeResponse } from "../components/SurveyFreeResponse";
 
 export function SurveyView(): ReactElement {
   const { sessionId } = useSessionContext();
@@ -48,11 +49,15 @@ export function SurveyView(): ReactElement {
         />
         <SurveyQuestion
           id="perceived_familiarity"
-          text="I felt that the AI generated explanations were familiar"
+          text="I felt that the AI generated explanations were easy to interpret."
         />
         <SurveyQuestion
           id="workload"
           text="I felt comfortable with the workload presented."
+        />
+        <SurveyFreeResponse
+          id="freeform"
+          text="Please share any additional thoughts or feedback."
         />
       </Stack>
       <hr style={{ width: 500 }} />

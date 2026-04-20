@@ -54,11 +54,11 @@ export function OnboardingView(): ReactElement {
         />
         <SurveyQuestion
           id="trust_baseline"
-          text="I trust AI to analyze and review code."
+          text="I trust AI to analyze, review, and explain code."
         />
         <SurveyQuestion
           id="technical_comfort"
-          text="I cam comfortable reading/working with small excerpts of code."
+          text="I am comfortable reading/working with small excerpts of code."
         />
       </Stack>
       <hr style={{ width: 500 }} />
