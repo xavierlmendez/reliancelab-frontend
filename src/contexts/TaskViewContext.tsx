@@ -47,7 +47,10 @@ export function TaskViewProvider({ children }: { children: ReactNode }): ReactEl
 
   useEffect(() => {
     // sets initial task data
-    if (getTaskData) setTaskData(getTaskData);
+    if (getTaskData) {
+      setTaskData(getTaskData);
+      logEvent(endpoint, sessionId, 'task_load', taskData?.taskId, { score: userScore });
+    }
   }, [getTaskData]);
 
   useEffect(() => {
@@ -56,7 +59,12 @@ export function TaskViewProvider({ children }: { children: ReactNode }): ReactEl
       showScoreSavedToast();
       resetSelectionStates();
       setTaskData(postTaskData);
-      if (isLastTask) navigateToNextRoute();
+
+      if (isLastTask) {
+        navigateToNextRoute();
+      } else {
+        logEvent(endpoint, sessionId, 'task_load', taskData?.taskId, { score: userScore });
+      }
     }
   }, [postTaskData])
 
