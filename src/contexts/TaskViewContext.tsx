@@ -72,21 +72,13 @@ export function TaskViewProvider({ children }: { children: ReactNode }): ReactEl
   if (!loading && userScore) {
     showSavingScoreToast();
 
+    logEvent(endpoint, sessionId, 'decision_submit', taskData?.taskId, { score: userScore });
+
     postTask({
       sessionId,
       userScore,
       taskId: taskData!.taskId
     });
-    if (!loading && userScore) {
-      logEvent(endpoint, sessionId, 'decision_submit', taskData?.taskId, { score: userScore });
-      showSavingScoreToast();
-
-      postTask({
-        sessionId,
-        userScore,
-        taskId: taskData!.taskId
-      });
-    }
   }
 }
 
